@@ -32,7 +32,6 @@ export function LoginPage() {
             </div>
             <div className="text-left">
               <p className="text-xl font-bold text-slate-900">Mel</p>
-              <p className="text-sm text-slate-400 mt-0.5">Busy schedule, travel & family</p>
             </div>
             <div className="absolute right-5 text-mum-300 group-hover:text-mum-500 transition-colors text-xl">
               →
@@ -49,7 +48,6 @@ export function LoginPage() {
             </div>
             <div className="text-left">
               <p className="text-xl font-bold text-slate-900">Andrew</p>
-              <p className="text-sm text-slate-400 mt-0.5">Enduro rides & classic cars</p>
             </div>
             <div className="absolute right-5 text-dad-300 group-hover:text-dad-500 transition-colors text-xl">
               →
