@@ -6,7 +6,7 @@ import { Sidebar } from "./Sidebar";
 import { LoginPage } from "@/app/login/LoginPage";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
-  const { user, loading } = useAuth();
+  const { profile, loading } = useAuth();
 
   if (loading) {
     return (
@@ -19,7 +19,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     );
   }
 
-  if (!user) {
+  if (!profile) {
     return <LoginPage />;
   }
 

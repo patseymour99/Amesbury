@@ -7,83 +7,54 @@ import React, {
   useState,
   type ReactNode,
 } from "react";
-import {
-  signInWithEmailAndPassword,
-  signOut as firebaseSignOut,
-  onAuthStateChanged,
-  type User,
-} from "firebase/auth";
-import { auth } from "@/lib/firebase";
-import { getUserProfile, setUserProfile } from "@/lib/firestore";
 import type { UserProfile, UserRole } from "@/lib/types";
 
+const PROFILES: Record<UserRole, UserProfile> = {
+  mum: { id: "mel", name: "Mel", role: "mum", email: "", color: "#d946ef" },
+  dad: { id: "andrew", name: "Andrew", role: "dad", email: "", color: "#0ea5e9" },
+};
+
+const STORAGE_KEY = "amesbury_user";
+
 interface AuthContextValue {
-  user: User | null;
   profile: UserProfile | null;
   loading: boolean;
-  signIn: (email: string, password: string) => Promise<void>;
-  signOut: () => Promise<void>;
+  selectUser: (role: UserRole) => void;
+  signOut: () => void;
   activeUser: UserRole;
   setActiveUser: (role: UserRole) => void;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-const DEFAULT_PROFILES: Record<string, Omit<UserProfile, "id">> = {
-  mum: {
-    name: "Mum",
-    role: "mum",
-    email: "",
-    color: "#d946ef",
-  },
-  dad: {
-    name: "Dad",
-    role: "dad",
-    email: "",
-    color: "#0ea5e9",
-  },
-};
-
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [loading, setLoading] = useState(true);
   const [activeUser, setActiveUser] = useState<UserRole>("mum");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, async (firebaseUser) => {
-      setUser(firebaseUser);
-      if (firebaseUser) {
-        let p = await getUserProfile(firebaseUser.uid);
-        if (!p) {
-          const role = firebaseUser.email?.includes("dad") ? "dad" : "mum";
-          const defaults = DEFAULT_PROFILES[role];
-          const newProfile = { ...defaults, email: firebaseUser.email || "" };
-          await setUserProfile(firebaseUser.uid, newProfile);
-          p = { id: firebaseUser.uid, ...newProfile };
-        }
-        setProfile(p);
-        setActiveUser(p.role);
-      } else {
-        setProfile(null);
-      }
-      setLoading(false);
-    });
-    return unsub;
+    const saved = localStorage.getItem(STORAGE_KEY) as UserRole | null;
+    if (saved && PROFILES[saved]) {
+      setProfile(PROFILES[saved]);
+      setActiveUser(saved);
+    }
+    setLoading(false);
   }, []);
 
-  async function signIn(email: string, password: string) {
-    await signInWithEmailAndPassword(auth, email, password);
+  function selectUser(role: UserRole) {
+    localStorage.setItem(STORAGE_KEY, role);
+    setProfile(PROFILES[role]);
+    setActiveUser(role);
   }
 
-  async function signOut() {
-    await firebaseSignOut(auth);
+  function signOut() {
+    localStorage.removeItem(STORAGE_KEY);
     setProfile(null);
   }
 
   return (
     <AuthContext.Provider
-      value={{ user, profile, loading, signIn, signOut, activeUser, setActiveUser }}
+      value={{ profile, loading, selectUser, signOut, activeUser, setActiveUser }}
     >
       {children}
     </AuthContext.Provider>

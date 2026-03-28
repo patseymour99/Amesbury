@@ -66,7 +66,7 @@ export function Sidebar() {
               )}
             >
               <span>{role === "mum" ? "💜" : "💙"}</span>
-              {role === "mum" ? "Mum" : "Dad"}
+              {role === "mum" ? "Mel" : "Andrew"}
             </button>
           ))}
         </div>
@@ -115,7 +115,6 @@ export function Sidebar() {
               <p className="text-sm font-medium text-slate-900 truncate">
                 {profile.name}
               </p>
-              <p className="text-xs text-slate-400 truncate">{profile.email}</p>
             </div>
           </div>
         )}
@@ -124,7 +123,7 @@ export function Sidebar() {
           className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-sm text-slate-500 hover:bg-red-50 hover:text-red-600 transition-colors"
         >
           <LogOut size={16} />
-          Sign out
+          Switch user
         </button>
       </div>
     </div>
