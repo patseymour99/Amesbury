@@ -7,7 +7,6 @@ import {
   LayoutDashboard,
   CalendarDays,
   CheckSquare,
-  Wrench,
   Plane,
   Sparkles,
   LogOut,
@@ -23,7 +22,6 @@ const navItems = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
   { href: "/calendar", label: "Calendar", icon: CalendarDays },
   { href: "/tasks", label: "Tasks", icon: CheckSquare },
-  { href: "/hobbies", label: "Dad's Garage", icon: Wrench },
   { href: "/travel", label: "Travel", icon: Plane },
   { href: "/ai", label: "AI Assistant", icon: Sparkles },
 ];

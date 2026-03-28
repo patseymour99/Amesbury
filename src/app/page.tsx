@@ -8,8 +8,6 @@ import {
   Sparkles,
   RefreshCw,
   ArrowRight,
-  Bike,
-  Car,
   Clock,
   Plus,
 } from "lucide-react";
@@ -382,12 +380,6 @@ export default function DashboardPage() {
             label: "New Task",
             icon: CheckSquare,
             color: "from-emerald-500 to-teal-500",
-          },
-          {
-            href: "/hobbies",
-            label: "Log a Ride",
-            icon: Bike,
-            color: "from-orange-500 to-red-500",
           },
           {
             href: "/ai",
